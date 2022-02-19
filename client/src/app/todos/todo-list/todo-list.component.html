@@ -7,6 +7,12 @@
 
         <div fxLayout="row wrap" fxLayoutGap="10px">
 
+          <mat-form-field class="input-field">
+            <mat-label>Body</mat-label>
+            <input matInput id="todo-body-input" placeholder="Filter by body" [(ngModel)]="body"
+              (input)="updateFilter()">
+            <mat-hint>Filtered on client</mat-hint>
+          </mat-form-field>
 
           <mat-form-field class="input-field">
             <mat-label>Category</mat-label>
@@ -30,19 +36,11 @@
             <mat-label>status</mat-label>
             <mat-select (selectionChange)="getTodosFromServer()" [(ngModel)]="status" data-test="todoStatusSelect">
               <mat-option>--</mat-option>
-              <mat-option [value]="true">Complete</mat-option>
-              <mat-option [value]="false">Incomplete</mat-option>
+              <mat-option value="Complete">Complete</mat-option>
+              <mat-option value="Incomplete">Incomplete</mat-option>
             </mat-select>
             <mat-hint>Filtered on server</mat-hint>
           </mat-form-field>
-
-          <mat-form-field class="input-field">
-            <mat-label>Body</mat-label>
-            <input matInput id="todo-body-input" placeholder="Filter by body" [(ngModel)]="body"
-              (input)="getTodosFromServer()">
-            <mat-hint>Filtered on server</mat-hint>
-          </mat-form-field>
-
         </div>
       </mat-card-content>
     </mat-card>
