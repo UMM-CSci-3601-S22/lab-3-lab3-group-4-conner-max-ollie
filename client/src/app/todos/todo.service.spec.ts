@@ -19,7 +19,7 @@ describe('TodoService', () => {
       owner: 'Workman',
       status: false,
       body: 'Excepteur irure et mollit esse laboris ad tempor ullamco. Eiusmod nostrud qui veniam adipisicing aliqua voluptate reprehenderit ut amet excepteur.',
-      category: 'homework'
+      category: 'software design'
     },
     {
       _id: '588959856601f6a77b6a2862',
@@ -33,7 +33,7 @@ describe('TodoService', () => {
       owner: 'Barry',
       status: true,
       body: 'Deserunt velit reprehenderit deserunt sunt excepteur sit eu eiusmod in voluptate aute minim mollit. Esse aliqua esse officia do proident non consequat non mollit.',
-      category: 'homework'
+      category: 'video games'
     }
   ];
   let todoService: TodoService;
@@ -89,18 +89,48 @@ describe('TodoService', () => {
 
         req.flush(testTodos);
       });
-      describe('filterTodos()', () => {
-        it('filters by name', () => {
-          const todoCategory = 'homework';
-          const filteredTodos = todoService
-            .filterTodos(testTodos, { category: todoCategory });
-          expect(filteredTodos.length).toBe(4);
-          filteredTodos.forEach(todo => {
-            expect(todo.category
-              .indexOf(todoCategory)).toBeGreaterThanOrEqual(0);
-          });
-        });
+      it('correctly calls api/users with filter parameter \'complete\'', () => {
+        todoService.getTodos({ status: true }).subscribe(
+          users => expect(users).toBe(testTodos)
+        );
+
+        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+        const req = httpTestingController.expectOne(
+          (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
+        );
+
+        // Check that the request made to that URL was a GET request.
+        expect(req.request.method).toEqual('GET');
+
+        // Check that the role parameter was 'Status'
+        expect(req.request.params.get("status")).toEqual('true');
+
+        req.flush(testTodos);
       });
     });
   });
+
+  describe('filterTodos()', () => {
+    it('filters by category', () => {
+      const todoCategory = 'homework';
+      const filteredTodos = todoService
+        .filterTodos(testTodos, { category: todoCategory });
+      expect(filteredTodos.length).toBe(2);
+      filteredTodos.forEach(todo => {
+        expect(todo.category
+          .indexOf(todoCategory)).toBeGreaterThanOrEqual(0);
+      });
+    });
+    it('filters by body', () => {
+      const todoBody = 'Proident cupidity';
+      const filteredTodos = todoService
+        .filterTodos(testTodos, { body: todoBody });
+      expect(filteredTodos.length).toBe(1);
+      filteredTodos.forEach(todo => {
+        expect(todo.body
+          .indexOf(todoBody)).toBeGreaterThanOrEqual(0);
+      });
+  });
 });
+});
+
