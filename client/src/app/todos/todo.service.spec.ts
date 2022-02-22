@@ -94,7 +94,8 @@ describe('TodoService', () => {
           users => expect(users).toBe(testTodos)
         );
 
-        // Specify that (exactly) one request will be made to the specified URL with the role parameter.
+        // Specify that (exactly) one request will be made 
+        // to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
         );
@@ -103,7 +104,7 @@ describe('TodoService', () => {
         expect(req.request.method).toEqual('GET');
 
         // Check that the role parameter was 'Status'
-        expect(req.request.params.get("status")).toEqual('true');
+        expect(req.request.params.get('status')).toEqual('true');
 
         req.flush(testTodos);
       });
@@ -130,7 +131,7 @@ describe('TodoService', () => {
         expect(todo.body
           .indexOf(todoBody)).toBeGreaterThanOrEqual(0);
       });
+    });
   });
-});
 });
 
