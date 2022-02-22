@@ -41,7 +41,7 @@ const COMMON_IMPORTS: any[] = [
 
 
 let todoList: TodoListComponent;
-async function constructTodoList(){
+async function constructTodoList() {
   await TestBed.compileComponents();
   const fixture = TestBed.createComponent(TodoListComponent);
   todoList = fixture.componentInstance;
@@ -49,12 +49,12 @@ async function constructTodoList(){
 
 }
 describe('TodoListComponent', () => {
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [TodoListComponent],
-      
+
       providers: [{ provide: TodoService, useValue: new MockTodoService() }]
     });
   });
@@ -72,9 +72,9 @@ describe('TodoListComponent', () => {
   it('contains a Todo named "software design"', () => {
     expect(todoList.serverFilteredTodos.some((todo: Todo) => todo.category === 'software design')).toBe(true);
   });
-  
+
 });
-    
+
 describe('Misbehaving Todo List', () => {
 
   let todoServiceStub: {
@@ -83,7 +83,7 @@ describe('Misbehaving Todo List', () => {
   };
 
   beforeEach(() => {
-    
+
     todoServiceStub = {
       getTodos: () => new Observable(observer => {
         observer.error('getTodos() Observer generates an error');
@@ -95,16 +95,16 @@ describe('Misbehaving Todo List', () => {
     TestBed.configureTestingModule({
       imports: [COMMON_IMPORTS],
       declarations: [TodoListComponent],
-     
+
       providers: [{ provide: TodoService, useValue: todoServiceStub }]
     });
   });
 
- 
+
   beforeEach(waitForAsync(constructTodoList));
 
   it('fails to load users if we do not set up a TodoListService', () => {
-    
+
     expect(todoList.serverFilteredTodos).toBeUndefined();
   });
 });
