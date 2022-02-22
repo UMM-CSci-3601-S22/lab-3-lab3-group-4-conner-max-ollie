@@ -94,7 +94,7 @@ describe('TodoService', () => {
           users => expect(users).toBe(testTodos)
         );
 
-        // Specify that (exactly) one request will be made 
+        // Specify that (exactly) one request will be made
         // to the specified URL with the role parameter.
         const req = httpTestingController.expectOne(
           (request) => request.url.startsWith(todoService.todoUrl) && request.params.has('status')
